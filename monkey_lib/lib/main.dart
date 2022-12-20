@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monkey_lib/service/theme/app_theme.dart';
 import 'package:monkey_lib/utils/constraints/app_constraints.dart';
+import 'package:monkey_lib/utils/pretty_json.dart';
 import 'package:monkey_lib/widgets/custom_text_form_field.dart';
 import 'package:device_preview/device_preview.dart';
 
@@ -75,11 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               CustomTextFormField(
                 context,
-                titleText: "Label Text Form Field",
+                titleText: "Họ và tên",
+                hintText: "Nhập tên đầy đủ của bạn",
+                initialValue: "Nguyễn Văn A",
+                controller: TextEditingController(text: "Nguyễn Văn B"),
                 trailing: const Icon(
                   Icons.keyboard_arrow_down,
                   size: AppSize.lIconSize,
                 ),
+                onChanged: (({required String newValue, oldValue}) {
+                  Logger.w("newValue: $newValue  : oldValue: $oldValue");
+                }),
               ),
             ],
           ),

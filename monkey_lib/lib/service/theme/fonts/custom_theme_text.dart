@@ -68,7 +68,7 @@ class CustomThemeText extends ThemeExtension<CustomThemeText> {
   static CustomThemeText get getDarkCustomThemeText => CustomThemeText(
         textFormFieldLabelStyle: TextStyle(
           fontSize: 16,
-          height: 20 / 16,
+          height: 16 / 20,
           fontWeight: FontWeight.w400,
           color: CustomThemeColors.dark.textFormFieldLabelColor,
         ),
@@ -86,7 +86,7 @@ class CustomThemeText extends ThemeExtension<CustomThemeText> {
         ),
         textFormFiledContentStyle: TextStyle(
           fontSize: 16,
-          height: 20 / 16,
+          height: 16 / 20,
           fontWeight: FontWeight.w400,
           color: CustomThemeColors.dark.textFormFieldContentColor,
         ),

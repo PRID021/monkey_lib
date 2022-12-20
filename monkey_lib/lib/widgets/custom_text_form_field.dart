@@ -24,9 +24,19 @@ class CustomTextFormField<String> extends FormField<String> {
   final TextStyle? labelStyle;
   final TextStyle? hintStyle;
   final TextStyle? contextStyle;
+  final TextEditingController? controller;
+  final String? initialValue;
+
+  /// Called when user started typing in the field.
+  ///
+  /// The [newValue] is the new value of the field.
+  /// The [oldValue] is the previous value of the field.
+  final Function({required String newValue, String? oldValue})? onChanged;
   CustomTextFormField(
     this.context, {
-    key,
+    super.key,
+    this.initialValue,
+    this.controller,
     this.onTap,
     this.labelStyle,
     this.hintStyle,
@@ -41,6 +51,7 @@ class CustomTextFormField<String> extends FormField<String> {
     this.focusBorderDecoration,
     this.borderDecoration,
     this.errorBorderDecoration,
+    this.onChanged,
   }) : super(builder: (field) {
           field = field as _CustomTextFomFieldState<String>;
           CustomTextFormFieldFocusState focusState = field._focusState;
@@ -97,7 +108,7 @@ class CustomTextFormField<String> extends FormField<String> {
                   MarginPaddingRadiusConstraints.innerPaddingVerticalMedium,
             ),
             decoration: getBorderDecoration(
-              isFirstBuild: field._isFirstBuild,
+              isFirstBuild: field._isFresh,
               isValid: field.isValid,
               isFocused: isFocused,
             ),
@@ -116,6 +127,7 @@ class CustomTextFormField<String> extends FormField<String> {
                 Expanded(
                   child: TextField(
                     focusNode: field._focusNode,
+                    controller: field._controller,
                     textAlign: TextAlign.start,
                     style: _contextStyle,
                     textAlignVertical: TextAlignVertical.top,
@@ -182,14 +194,20 @@ enum CustomTextFormFieldFocusState {
 
 class _CustomTextFomFieldState<String> extends FormFieldState<String> {
   late FocusNode _focusNode;
-  late bool _isFirstBuild;
-
+  late bool _isFresh;
   late CustomTextFormFieldFocusState _focusState;
+  late TextEditingController _controller;
+  late final String? _initialValue;
+  late String? _oldValue;
 
   @override
   void initState() {
     super.initState();
-    _isFirstBuild = true;
+    _oldValue = null;
+    _initialValue = widget.initialValue;
+    _controller = widget.controller ?? TextEditingController();
+    _controller.value = TextEditingValue(text: "${_initialValue ?? ""}");
+    _isFresh = true;
     _focusNode = widget.focusNode ?? FocusNode();
     _focusState = CustomTextFormFieldFocusState.Unfocused;
     _focusNode.addListener(() {
@@ -202,8 +220,24 @@ class _CustomTextFomFieldState<String> extends FormFieldState<String> {
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _isFirstBuild = false;
+      _isFresh = false;
     });
+    _controller.addListener(() {
+      if (_oldValue == _controller.text || _oldValue == null) {
+        _oldValue = _controller.text as String?;
+        return;
+      }
+      widget.onChanged
+          ?.call(newValue: _controller.text as String, oldValue: _oldValue);
+      _oldValue = _controller.text as String?;
+      didChange(_controller.text as String?);
+    });
+  }
+
+  @override
+  bool validate() {
+    if (_isFresh) _isFresh = false;
+    return super.validate();
   }
 
   @override
