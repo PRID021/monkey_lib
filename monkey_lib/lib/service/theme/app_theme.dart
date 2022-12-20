@@ -50,7 +50,7 @@ List<AppTheme> appThemes = [
     "monkey-first": ThemeData(primarySwatch: Colors.pink).copyWith(
       extensions: <ThemeExtension>[
         CustomThemeColors.dark,
-        CustomThemeText.getLightCustomThemeText,
+        CustomThemeText.getDarkCustomThemeText,
         CustomTextFormFieldTheme.dark,
       ],
       scaffoldBackgroundColor: Color(0xFF2C2C2C),
@@ -138,9 +138,9 @@ class AppStyle {
   // private method
   ThemeData? get _getCurrentThemeDataBySystem {
     bool isDarkMode = SystemUtils.isDarkMode;
-    if (isDarkMode) {
-      return _instance._currentAppTheme?.darkModeSet?.values.first;
-    }
+    // if (isDarkMode) {
+    //   return _instance._currentAppTheme?.darkModeSet?.values.first;
+    // }
     return _instance._currentAppTheme?.lightModeSet?.values.first;
   }
 

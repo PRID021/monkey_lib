@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:monkey_lib/service/theme/custom_text_form_field_theme.dart';
 import 'package:monkey_lib/utils/constraints/app_constraints.dart';
 import 'package:monkey_lib/utils/pretty_json.dart';
@@ -81,6 +82,12 @@ class CustomTextFormField<String> extends FormField<String> {
 
           final StrutStyle? _strutStyle = customTextFormFieldTheme?.strutStyle;
           final Color? _cursorColor = customTextFormFieldTheme?.cursorColor;
+          final List<Color> _iconColors =
+              customTextFormFieldTheme?.iconColors ??
+                  [
+                    Colors.white,
+                    Colors.blue,
+                  ];
 
           return Container(
             padding: const EdgeInsets.symmetric(
@@ -109,12 +116,15 @@ class CustomTextFormField<String> extends FormField<String> {
                 Expanded(
                   child: TextField(
                     focusNode: field._focusNode,
+                    textAlign: TextAlign.start,
                     style: _contextStyle,
+                    textAlignVertical: TextAlignVertical.top,
                     cursorRadius: const Radius.elliptical(10, 10),
                     maxLines: 1,
                     strutStyle: _strutStyle,
                     cursorColor: _cursorColor,
-                    textInputAction: TextInputAction.next,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       hintStyle: _hintStyle,
                       labelStyle: _labelStyle,
@@ -123,6 +133,7 @@ class CustomTextFormField<String> extends FormField<String> {
                         bottom: MarginPaddingRadiusConstraints.paddingSmall,
                       ),
                       isCollapsed: false,
+                      isDense: true,
                       border: InputBorder.none,
                       errorBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
@@ -142,7 +153,17 @@ class CustomTextFormField<String> extends FormField<String> {
                         ),
                         width: AppSize.mIconButtonSize,
                         height: AppSize.mIconButtonSize,
-                        child: trailing,
+                        child: ShaderMask(
+                          shaderCallback: (Rect bounds) {
+                            return RadialGradient(
+                              center: Alignment.topLeft,
+                              radius: 1.0,
+                              colors: _iconColors,
+                              tileMode: TileMode.mirror,
+                            ).createShader(bounds);
+                          },
+                          child: trailing,
+                        ),
                       )
                     : const SizedBox.shrink(),
               ],

@@ -16,7 +16,7 @@ class CustomThemeColors extends ThemeExtension<CustomThemeColors> {
   final Color textFormFieldContentColor;
   final Color textFormFieldErrorColor;
   final Color textFormFieldBackgroundColor;
-  final Color textFormFieldTrailingIconColor;
+  final List<Color> textFormFieldTrailingIconColor;
 
   CustomThemeColors({
     this.textFormFieldLabelColor = const Color(0xFFFCFCFC),
@@ -30,7 +30,10 @@ class CustomThemeColors extends ThemeExtension<CustomThemeColors> {
     this.dividerColor = const Color(0xFFE2E9FC),
     this.textFormFieldBorderColor = const Color(0xFFFCFCFC),
     this.textFormFieldBackgroundColor = const Color(0xFFFCFCFC),
-    this.textFormFieldTrailingIconColor = const Color(0xFFFCFCFC),
+    this.textFormFieldTrailingIconColor = const [
+      Color(0xFFFCFCFC),
+      Color(0xFFFCFCFC)
+    ],
     this.scaffoldBackgroundColor = const Color(0xFFFCFCFC),
     this.textFormFieldCursorColor = const Color(0xFFF7941E),
   });
@@ -98,9 +101,7 @@ class CustomThemeColors extends ThemeExtension<CustomThemeColors> {
       textFormFieldBackgroundColor: Color.lerp(textFormFieldBackgroundColor,
               other.textFormFieldBackgroundColor, t) ??
           const Color(0xFFFCFCFC),
-      textFormFieldTrailingIconColor: Color.lerp(textFormFieldTrailingIconColor,
-              other.textFormFieldTrailingIconColor, t) ??
-          const Color(0xFFFCFCFC),
+      textFormFieldTrailingIconColor: textFormFieldTrailingIconColor,
       textFormFieldCursorColor: Color.lerp(
               textFormFieldCursorColor, other.textFormFieldCursorColor, t) ??
           const Color(0xFFF7941E),
@@ -110,16 +111,20 @@ class CustomThemeColors extends ThemeExtension<CustomThemeColors> {
   // the dark theme
   static CustomThemeColors get dark => CustomThemeColors(
         dividerColor: Colors.white.withOpacity(0.1),
-        textFormFieldBorderColor: Colors.white.withOpacity(0.2),
-        textFormFieldFocusBorderColor: Colors.white.withOpacity(0.5),
-        textFormFieldHoverBorderColor: Colors.white.withOpacity(0.3),
+        textFormFieldBorderColor: Colors.white,
+        textFormFieldFocusBorderColor: Color.fromARGB(255, 57, 127, 255),
+        textFormFieldHoverBorderColor: Color.fromARGB(255, 151, 79, 79),
         textFormFieldDisabledBorderColor: Colors.white.withOpacity(0.1),
         textFormFieldErrorBorderColor: Colors.red.withOpacity(0.5),
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-        textFormFieldContentColor: const Color(0xFF212633),
-        textFormFieldLabelColor: const Color(0xFFB8C3E1),
-        textFormFieldTrailingIconColor: const Color(0xFF4250D0),
+        textFormFieldContentColor: Color.fromARGB(255, 255, 255, 255),
+        textFormFieldLabelColor: Color.fromARGB(255, 202, 202, 202),
+        textFormFieldTrailingIconColor: [
+          Colors.yellow,
+          Colors.deepOrange,
+        ],
         textFormFieldCursorColor: const Color(0xFFFFFFFF),
+        textFormFieldHintColor: Color.fromARGB(255, 255, 128, 128),
       );
   // the light theme
   static CustomThemeColors get light => CustomThemeColors(
@@ -135,7 +140,10 @@ class CustomThemeColors extends ThemeExtension<CustomThemeColors> {
         textFormFieldErrorColor: const Color(0xFFFD3549),
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         textFormFieldBackgroundColor: const Color(0xFFE2E9FC),
-        textFormFieldTrailingIconColor: const Color(0xFF4250D0),
+        textFormFieldTrailingIconColor: const [
+          Color(0xFF4250D0),
+          Color(0xFF4250D0)
+        ],
         textFormFieldCursorColor: const Color(0xFFF7941E),
       );
 }

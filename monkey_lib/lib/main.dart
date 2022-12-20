@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monkey_lib/service/theme/app_theme.dart';
 import 'package:monkey_lib/utils/constraints/app_constraints.dart';
 import 'package:monkey_lib/widgets/custom_text_form_field.dart';
+import 'package:device_preview/device_preview.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -12,7 +13,14 @@ void main() {
     defaultAppTheme: appThemes.first,
   );
 
-  runApp(const MyApp());
+  runApp(DevicePreview(
+      enabled: true,
+      tools: [
+        ...DevicePreview.defaultTools,
+      ],
+      builder: (context) {
+        return const MyApp();
+      }));
 }
 
 class MyApp extends StatefulWidget {
@@ -54,21 +62,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -88,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

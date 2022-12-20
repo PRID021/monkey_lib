@@ -22,6 +22,7 @@ dependencies:
   rxdart:
   shimmer:
   photo_view:
+  device_preview: ^1.1.0
 
 
 

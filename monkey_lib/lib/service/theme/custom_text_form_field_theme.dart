@@ -13,6 +13,7 @@ class CustomTextFormFieldTheme
   final TextStyle? hintStyle;
   final TextStyle? labelStyle;
   final Color? cursorColor;
+  final List<Color>? iconColors;
   final StrutStyle? strutStyle;
 
   CustomTextFormFieldTheme(
@@ -20,6 +21,7 @@ class CustomTextFormFieldTheme
       this.cursorColor,
       this.errorBoxDecoration,
       this.boxDecoration,
+      this.iconColors,
       this.textStyle,
       this.errorTextStyle,
       this.strutStyle,
@@ -56,6 +58,7 @@ class CustomTextFormFieldTheme
         labelStyle:
             CustomThemeText.getLightCustomThemeText.textFormFieldLabelStyle,
         cursorColor: CustomThemeColors.light.textFormFieldCursorColor,
+        iconColors: CustomThemeColors.light.textFormFieldTrailingIconColor,
         strutStyle: const StrutStyle(
           forceStrutHeight: true,
           height: 1.2,
@@ -82,7 +85,7 @@ class CustomTextFormFieldTheme
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.all(
             width: AppSize.mBorderWidth,
-            color: CustomThemeColors.dark.dividerColor,
+            color: CustomThemeColors.dark.textFormFieldBorderColor,
           ),
         ),
         textStyle:
@@ -99,6 +102,7 @@ class CustomTextFormFieldTheme
           height: 1.2,
           leading: 0.2,
         ),
+        iconColors: CustomThemeColors.dark.textFormFieldTrailingIconColor,
       );
 
   @override

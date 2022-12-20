@@ -67,47 +67,55 @@ class CustomThemeText extends ThemeExtension<CustomThemeText> {
 
   static CustomThemeText get getDarkCustomThemeText => CustomThemeText(
         textFormFieldLabelStyle: TextStyle(
-          fontSize: 12,
-          height: 16 / 12,
+          fontSize: 16,
+          height: 20 / 16,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.dark.textFormFieldLabelColor,
         ),
         textFormFiledHintStyle: TextStyle(
           fontSize: 16,
           height: 20 / 16,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.dark.textFormFieldHintColor,
         ),
         textFormFiledErrorStyle: TextStyle(
           fontSize: 14,
           height: 20 / 14,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.dark.textFormFieldErrorColor,
         ),
         textFormFiledContentStyle: TextStyle(
           fontSize: 16,
           height: 20 / 16,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.dark.textFormFieldContentColor,
         ),
       );
 
   static CustomThemeText get getLightCustomThemeText => CustomThemeText(
         textFormFieldLabelStyle: TextStyle(
           fontSize: 16,
-          height: 16 / 16,
+          height: 16 / 20,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.light.textFormFieldLabelColor,
         ),
         textFormFiledHintStyle: TextStyle(
           fontSize: 16,
           height: 20 / 16,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.light.textFormFieldHintColor,
         ),
         textFormFiledErrorStyle: TextStyle(
           fontSize: 14,
-          height: 20 / 14,
+          height: 16 / 14,
+          color: CustomThemeColors.light.textFormFieldErrorColor,
           fontWeight: FontWeight.w400,
         ),
         textFormFiledContentStyle: TextStyle(
           fontSize: 16,
-          height: 20 / 16,
+          height: 16 / 20,
           fontWeight: FontWeight.w400,
+          color: CustomThemeColors.light.textFormFieldContentColor,
         ),
       );
 }
