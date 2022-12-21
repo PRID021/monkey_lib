@@ -1,12 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:monkey_lib/service/theme/custom_text_form_field_theme.dart';
 import 'package:monkey_lib/utils/constraints/app_constraints.dart';
-import 'package:monkey_lib/utils/pretty_json.dart';
 import '../utils/extension/in_app_extension.dart' as app_extension;
-import '../utils/constraints/app_constraints.dart' as app_constraints;
 
 class CustomTextFormField<String> extends FormField<String> {
   final Function()? onTap;
@@ -75,18 +70,15 @@ class CustomTextFormField<String> extends FormField<String> {
           final TextStyle? _contextStyle = contextStyle ??
               context.customTextTheme?.textFormFiledContentStyle;
           BoxDecoration? getBorderDecoration({
-            required bool isFirstBuild,
-            required bool isValid,
-            required bool isFocused,
+            required CustomTextFormFieldStatus status,
+            required CustomTextFormFieldFocusState focusState,
           }) {
-            if (isFirstBuild) {
-              return _borderDecoration;
-            }
-            if (!isValid) {
-              return _errorBorderDecoration;
-            }
-            if (isFocused) {
+            if (focusState == CustomTextFormFieldFocusState.Focused) {
               return _focusBorderDecoration;
+            }
+
+            if (status == CustomTextFormFieldStatus.Invalid) {
+              return _errorBorderDecoration;
             }
             return _borderDecoration;
           }
@@ -100,86 +92,109 @@ class CustomTextFormField<String> extends FormField<String> {
                     Colors.blue,
                   ];
 
-          return Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal:
-                  MarginPaddingRadiusConstraints.innerPaddingHorizontalMedium,
-              vertical:
-                  MarginPaddingRadiusConstraints.innerPaddingVerticalMedium,
-            ),
-            decoration: getBorderDecoration(
-              isFirstBuild: field._isFresh,
-              isValid: field.isValid,
-              isFocused: isFocused,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                leading != null
-                    ? Container(
-                        width: AppSize.mIconButtonSize,
-                        height: AppSize.mIconButtonSize,
-                        margin: const EdgeInsets.only(
-                            right: MarginPaddingRadiusConstraints.marginSmall),
-                      )
-                    : const SizedBox.shrink(),
-                Expanded(
-                  child: TextField(
-                    focusNode: field._focusNode,
-                    controller: field._controller,
-                    textAlign: TextAlign.start,
-                    style: _contextStyle,
-                    textAlignVertical: TextAlignVertical.top,
-                    cursorRadius: const Radius.elliptical(10, 10),
-                    maxLines: 1,
-                    strutStyle: _strutStyle,
-                    cursorColor: _cursorColor,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      hintStyle: _hintStyle,
-                      labelStyle: _labelStyle,
-                      contentPadding: const EdgeInsets.only(
-                        top: MarginPaddingRadiusConstraints.paddingSmall,
-                        bottom: MarginPaddingRadiusConstraints.paddingSmall,
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: MarginPaddingRadiusConstraints
+                      .innerPaddingHorizontalMedium,
+                  vertical:
+                      MarginPaddingRadiusConstraints.innerPaddingVerticalMedium,
+                ),
+                decoration: getBorderDecoration(
+                    focusState: field._focusState, status: field._status),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    leading != null
+                        ? Container(
+                            width: AppSize.mIconButtonSize,
+                            height: AppSize.mIconButtonSize,
+                            margin: const EdgeInsets.only(
+                                right:
+                                    MarginPaddingRadiusConstraints.marginSmall),
+                          )
+                        : const SizedBox.shrink(),
+                    Expanded(
+                      child: TextField(
+                        focusNode: field._focusNode,
+                        controller: field._controller,
+                        textAlign: TextAlign.start,
+                        style: _contextStyle,
+                        textAlignVertical: TextAlignVertical.top,
+                        cursorRadius: const Radius.elliptical(10, 10),
+                        maxLines: 1,
+                        strutStyle: _strutStyle,
+                        cursorColor: _cursorColor,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintStyle: _hintStyle,
+                          labelStyle: _labelStyle,
+                          contentPadding: const EdgeInsets.only(
+                            top: MarginPaddingRadiusConstraints.paddingSmall,
+                            bottom: MarginPaddingRadiusConstraints.paddingSmall,
+                          ),
+                          isCollapsed: false,
+                          isDense: true,
+                          border: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          labelText: titleText?.toString(),
+                          hintText: hintText?.toString() ??
+                              titleText?.toString() ??
+                              "",
+                        ),
                       ),
-                      isCollapsed: false,
-                      isDense: true,
-                      border: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                      labelText: titleText?.toString(),
-                      hintText:
-                          hintText?.toString() ?? titleText?.toString() ?? "",
+                    ),
+                    trailing != null
+                        ? Container(
+                            margin: const EdgeInsets.only(
+                              left: MarginPaddingRadiusConstraints.marginSmall,
+                            ),
+                            width: AppSize.mIconButtonSize,
+                            height: AppSize.mIconButtonSize,
+                            child: ShaderMask(
+                              shaderCallback: (Rect bounds) {
+                                return RadialGradient(
+                                  center: Alignment.topLeft,
+                                  radius: 1.0,
+                                  colors: _iconColors,
+                                  tileMode: TileMode.mirror,
+                                ).createShader(bounds);
+                              },
+                              child: trailing,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ],
+                ),
+              ),
+              Visibility(
+                // visible:
+                // field.errorText != null && field.errorText!.isNotEmpty,
+                visible: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: MarginPaddingRadiusConstraints.paddingMedium,
+                    left: MarginPaddingRadiusConstraints
+                        .innerPaddingHorizontalMedium,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      field.errorText ?? "Smell something fishy",
+                      style: context.customTextTheme?.textFormFiledErrorStyle,
                     ),
                   ),
                 ),
-                trailing != null
-                    ? Container(
-                        margin: const EdgeInsets.only(
-                          left: MarginPaddingRadiusConstraints.marginSmall,
-                        ),
-                        width: AppSize.mIconButtonSize,
-                        height: AppSize.mIconButtonSize,
-                        child: ShaderMask(
-                          shaderCallback: (Rect bounds) {
-                            return RadialGradient(
-                              center: Alignment.topLeft,
-                              radius: 1.0,
-                              colors: _iconColors,
-                              tileMode: TileMode.mirror,
-                            ).createShader(bounds);
-                          },
-                          child: trailing,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ],
-            ),
+              ),
+            ],
           );
         });
 
@@ -192,22 +207,30 @@ enum CustomTextFormFieldFocusState {
   Unfocused,
 }
 
+enum CustomTextFormFieldStatus {
+  Valid,
+  Invalid,
+  Initial,
+}
+
 class _CustomTextFomFieldState<String> extends FormFieldState<String> {
   late FocusNode _focusNode;
-  late bool _isFresh;
+
   late CustomTextFormFieldFocusState _focusState;
   late TextEditingController _controller;
   late final String? _initialValue;
   late String? _oldValue;
+  late CustomTextFormFieldStatus _status;
 
   @override
   void initState() {
     super.initState();
+    _status = CustomTextFormFieldStatus.Initial;
     _oldValue = null;
     _initialValue = widget.initialValue;
     _controller = widget.controller ?? TextEditingController();
     _controller.value = TextEditingValue(text: "${_initialValue ?? ""}");
-    _isFresh = true;
+
     _focusNode = widget.focusNode ?? FocusNode();
     _focusState = CustomTextFormFieldFocusState.Unfocused;
     _focusNode.addListener(() {
@@ -219,9 +242,7 @@ class _CustomTextFomFieldState<String> extends FormFieldState<String> {
         }
       });
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _isFresh = false;
-    });
+
     _controller.addListener(() {
       if (_oldValue == _controller.text || _oldValue == null) {
         _oldValue = _controller.text as String?;
@@ -236,8 +257,13 @@ class _CustomTextFomFieldState<String> extends FormFieldState<String> {
 
   @override
   bool validate() {
-    if (_isFresh) _isFresh = false;
-    return super.validate();
+    bool valid = super.validate();
+    if (valid) {
+      _status = CustomTextFormFieldStatus.Valid;
+    } else {
+      _status = CustomTextFormFieldStatus.Invalid;
+    }
+    return valid;
   }
 
   @override

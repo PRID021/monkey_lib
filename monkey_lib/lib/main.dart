@@ -63,6 +63,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,29 +72,38 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CustomTextFormField(
-                context,
-                titleText: "Họ và tên",
-                hintText: "Nhập tên đầy đủ của bạn",
-                initialValue: "Nguyễn Văn A",
-                controller: TextEditingController(text: "Nguyễn Văn B"),
-                trailing: const Icon(
-                  Icons.keyboard_arrow_down,
-                  size: AppSize.lIconSize,
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CustomTextFormField(
+                  context,
+                  titleText: "Họ và tên",
+                  hintText: "Nhập tên đầy đủ của bạn",
+                  initialValue: "Nguyễn Văn A",
+                  controller: TextEditingController(text: "Nguyễn Văn B"),
+                  trailing: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: () {},
+                    child: const Icon(
+                      Icons.cancel,
+                      size: AppSize.lIconSize,
+                    ),
+                  ),
+                  onChanged: (({required String newValue, oldValue}) {
+                    Logger.w("newValue: $newValue  : oldValue: $oldValue");
+                  },),
                 ),
-                onChanged: (({required String newValue, oldValue}) {
-                  Logger.w("newValue: $newValue  : oldValue: $oldValue");
-                }),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          formKey.currentState?.validate();
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

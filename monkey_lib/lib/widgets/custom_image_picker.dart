@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../utils/pretty_json.dart';
 
 class CustomImagePicker extends StatefulWidget {
@@ -67,17 +66,17 @@ class _CustomImagePickerState extends State<CustomImagePicker>
       minChildSize: minChildSize,
       builder: (_, controller) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
-          padding: EdgeInsets.fromLTRB(4, 4, 4, 0),
+          padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,14 +85,14 @@ class _CustomImagePickerState extends State<CustomImagePicker>
                             alignment: Alignment.centerRight,
                             child: Container(
                               color: Colors.transparent,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.accessibility,
                                 size: 50,
                               ),
                             ),
                           ),
                           Column(
-                            children: [
+                            children: const [
                               Text(
                                 "Strings.allImage.i18n",
                                 style: TextStyle(
@@ -114,7 +113,7 @@ class _CustomImagePickerState extends State<CustomImagePicker>
                             alignment: Alignment.centerRight,
                             child: Container(
                               color: Colors.transparent,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.check_circle_outlined,
                                 size: 50,
                               ),
@@ -126,7 +125,7 @@ class _CustomImagePickerState extends State<CustomImagePicker>
                   ],
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Expanded(
                 child: PhotosGridView(
                   scrollController: controller,
