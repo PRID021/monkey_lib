@@ -70,6 +70,8 @@ class CustomThemeText extends ThemeExtension<CustomThemeText> {
           fontSize: 16,
           height: 16 / 20,
           fontWeight: FontWeight.w400,
+          decoration: TextDecoration.none,
+          textBaseline: TextBaseline.ideographic,
           color: CustomThemeColors.dark.textFormFieldLabelColor,
         ),
         textFormFiledHintStyle: TextStyle(

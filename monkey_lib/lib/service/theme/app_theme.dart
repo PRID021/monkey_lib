@@ -32,12 +32,12 @@ abstract class SystemUtils {
 List<AppTheme> appThemes = [
   AppTheme(themeSetTitle: "monkey", lightModeSet: {
     "monkey-first": ThemeData(primarySwatch: Colors.grey).copyWith(
-      canvasColor: Color.fromARGB(255, 59, 33, 33),
-      primaryColor: Color.fromARGB(255, 59, 33, 33),
-      scaffoldBackgroundColor: Color(0xFFFFFFFF),
-      dividerColor: Color(0xFFACACAC),
-      iconTheme: IconThemeData().copyWith(
-        color: Color(0xFF0088FF),
+      canvasColor: const Color.fromARGB(255, 59, 33, 33),
+      primaryColor: const Color.fromARGB(255, 59, 33, 33),
+      scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+      dividerColor: const Color(0xFFACACAC),
+      iconTheme: const IconThemeData().copyWith(
+        color: const Color(0xFF0088FF),
       ),
       extensions: <ThemeExtension>[
         CustomThemeColors.light,
@@ -53,10 +53,10 @@ List<AppTheme> appThemes = [
         CustomThemeText.getDarkCustomThemeText,
         CustomTextFormFieldTheme.dark,
       ],
-      scaffoldBackgroundColor: Color(0xFF2C2C2C),
-      dividerColor: Color(0xFFACACAC),
-      iconTheme: IconThemeData().copyWith(
-        color: Color(0xFFFCFCFC),
+      scaffoldBackgroundColor: const Color(0xFF2C2C2C),
+      dividerColor: const Color(0xFFACACAC),
+      iconTheme: const IconThemeData().copyWith(
+        color: const Color(0xFFFCFCFC),
       ),
       useMaterial3: true,
     ),

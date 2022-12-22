@@ -20,7 +20,7 @@ class CustomTextFormField<String> extends FormField<String> {
   final TextStyle? hintStyle;
   final TextStyle? contextStyle;
   final TextEditingController? controller;
-  final String? initialValue;
+  final bool showClearButton;
 
   /// Called when user started typing in the field.
   ///
@@ -30,7 +30,8 @@ class CustomTextFormField<String> extends FormField<String> {
   CustomTextFormField(
     this.context, {
     super.key,
-    this.initialValue,
+    super.initialValue,
+    super.validator,
     this.controller,
     this.onTap,
     this.labelStyle,
@@ -47,6 +48,7 @@ class CustomTextFormField<String> extends FormField<String> {
     this.borderDecoration,
     this.errorBorderDecoration,
     this.onChanged,
+    this.showClearButton = true,
   }) : super(builder: (field) {
           field = field as _CustomTextFomFieldState<String>;
           CustomTextFormFieldFocusState focusState = field._focusState;
@@ -124,7 +126,7 @@ class CustomTextFormField<String> extends FormField<String> {
                         textAlign: TextAlign.start,
                         style: _contextStyle,
                         textAlignVertical: TextAlignVertical.top,
-                        cursorRadius: const Radius.elliptical(10, 10),
+                        cursorRadius: const Radius.elliptical(8, 8),
                         maxLines: 1,
                         strutStyle: _strutStyle,
                         cursorColor: _cursorColor,
@@ -153,42 +155,84 @@ class CustomTextFormField<String> extends FormField<String> {
                       ),
                     ),
                     trailing != null
-                        ? Container(
-                            margin: const EdgeInsets.only(
-                              left: MarginPaddingRadiusConstraints.marginSmall,
-                            ),
-                            width: AppSize.mIconButtonSize,
-                            height: AppSize.mIconButtonSize,
-                            child: ShaderMask(
-                              shaderCallback: (Rect bounds) {
-                                return RadialGradient(
-                                  center: Alignment.topLeft,
-                                  radius: 1.0,
-                                  colors: _iconColors,
-                                  tileMode: TileMode.mirror,
-                                ).createShader(bounds);
-                              },
-                              child: trailing,
-                            ),
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: MarginPaddingRadiusConstraints
+                                      .paddingSmall,
+                                ),
+                                child: ShaderMask(
+                                  shaderCallback: (Rect bounds) {
+                                    return RadialGradient(
+                                      center: Alignment.center,
+                                      radius: 0,
+                                      colors: _iconColors,
+                                      tileMode: TileMode.decal,
+                                    ).createShader(bounds);
+                                  },
+                                  child: trailing,
+                                ),
+                              ),
+                              if (showClearButton)
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                    left: MarginPaddingRadiusConstraints
+                                        .paddingSmall,
+                                  ),
+                                  width: AppSize.mIconButtonSize / 8,
+                                  height: AppSize.mIconButtonSize,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(32),
+                                  ),
+                                ),
+                              if (showClearButton)
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: MarginPaddingRadiusConstraints
+                                        .paddingSmall,
+                                  ),
+                                  child: ShaderMask(
+                                    shaderCallback: (Rect bounds) {
+                                      return RadialGradient(
+                                        center: Alignment.center,
+                                        radius: 0,
+                                        colors: _iconColors,
+                                        tileMode: TileMode.decal,
+                                      ).createShader(bounds);
+                                    },
+                                    child: InkWell(
+                                      onTap: () {
+                                        (field as _CustomTextFomFieldState<
+                                                String>)
+                                            ._controller
+                                            .clear();
+                                      },
+                                      customBorder: const CircleBorder(),
+                                      child: const Icon(Icons.cancel_outlined),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           )
                         : const SizedBox.shrink(),
                   ],
                 ),
               ),
-              Visibility(
-                // visible:
-                // field.errorText != null && field.errorText!.isNotEmpty,
-                visible: true,
+              Opacity(
+                opacity: field.hasError == true ? 1 : 0,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: MarginPaddingRadiusConstraints.paddingMedium,
+                    top: MarginPaddingRadiusConstraints.paddingSmall,
                     left: MarginPaddingRadiusConstraints
                         .innerPaddingHorizontalMedium,
                   ),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      field.errorText ?? "Smell something fishy",
+                      field.errorText ?? "Smell something fishy \u1F60	",
                       style: context.customTextTheme?.textFormFiledErrorStyle,
                     ),
                   ),

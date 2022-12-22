@@ -71,7 +71,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
 
   Widget _buildHeaderScrollSheet(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -80,12 +80,12 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
       height: 111,
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 6,
               ),
               TextButton(
@@ -97,7 +97,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                       color: const Color(0xFF007AFF)),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 49,
               ),
               SizedBox(
@@ -116,7 +116,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 49,
               ),
               TextButton(
@@ -132,7 +132,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 13,
           ),
           SizedBox(
@@ -173,7 +173,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                     ),
                   ),
                   hintText: "Photos, People, Places...",
-                  contentPadding: EdgeInsets.symmetric(vertical: 2)),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2)),
             ),
           ),
         ],
@@ -188,7 +188,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
       expand: false,
       builder: (_, controller) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),

@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      theme: AppStyle.defaultAppThemeData,
+      theme: appThemes.first.darkModeSet!.values.first,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -79,21 +79,27 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 CustomTextFormField(
                   context,
+                  showClearButton: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                   titleText: "Họ và tên",
                   hintText: "Nhập tên đầy đủ của bạn",
                   initialValue: "Nguyễn Văn A",
-                  controller: TextEditingController(text: "Nguyễn Văn B"),
+                  controller: TextEditingController(),
                   trailing: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.cancel,
-                      size: AppSize.lIconSize,
-                    ),
-                  ),
+                      customBorder: const CircleBorder(),
+                      onTap: () {},
+                      child: Icon(
+                        Icons.outbond_outlined,
+                        size: 24,
+                      )),
                   onChanged: (({required String newValue, oldValue}) {
                     Logger.w("newValue: $newValue  : oldValue: $oldValue");
-                  },),
+                  }),
                 ),
               ],
             ),

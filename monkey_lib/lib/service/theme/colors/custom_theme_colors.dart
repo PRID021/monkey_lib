@@ -112,19 +112,20 @@ class CustomThemeColors extends ThemeExtension<CustomThemeColors> {
   static CustomThemeColors get dark => CustomThemeColors(
         dividerColor: Colors.white.withOpacity(0.1),
         textFormFieldBorderColor: Colors.white,
-        textFormFieldFocusBorderColor: Color.fromARGB(255, 57, 127, 255),
-        textFormFieldHoverBorderColor: Color.fromARGB(255, 151, 79, 79),
+        textFormFieldFocusBorderColor: const Color.fromARGB(255, 57, 127, 255),
+        textFormFieldHoverBorderColor: const Color.fromARGB(255, 151, 79, 79),
         textFormFieldDisabledBorderColor: Colors.white.withOpacity(0.1),
         textFormFieldErrorBorderColor: Colors.red.withOpacity(0.5),
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-        textFormFieldContentColor: Color.fromARGB(255, 255, 255, 255),
-        textFormFieldLabelColor: Color.fromARGB(255, 202, 202, 202),
+        textFormFieldContentColor: const Color.fromARGB(255, 255, 255, 255),
+        textFormFieldLabelColor: const Color.fromARGB(255, 202, 202, 202),
         textFormFieldTrailingIconColor: [
           Colors.yellow,
           Colors.deepOrange,
         ],
         textFormFieldCursorColor: const Color(0xFFFFFFFF),
-        textFormFieldHintColor: Color.fromARGB(255, 255, 128, 128),
+        textFormFieldHintColor: const Color.fromARGB(255, 255, 128, 128),
+        textFormFieldErrorColor: const Color.fromARGB(255, 255, 128, 128),
       );
   // the light theme
   static CustomThemeColors get light => CustomThemeColors(
